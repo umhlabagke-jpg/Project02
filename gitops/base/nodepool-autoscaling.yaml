@@ -1,0 +1,7 @@
+apiVersion: autoscaling.gke.io/v1
+kind: NodePoolAutoScaling
+metadata:
+  name: platform-system
+spec:
+  minNodes: 1
+  maxNodes: 10

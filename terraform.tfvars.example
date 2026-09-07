@@ -1,0 +1,9 @@
+project_id          = "learning-gke-498507"
+region              = "europe-west1"
+zones               = ["europe-west1-b", "europe-west1-c", "europe-west1-d"]
+name                = "platform"
+github_org          = "YOUR_GITHUB_ORG"
+github_repo         = "Project02"
+github_manifest_repo = "Project02-manifests"
+db_tier             = "db-custom-2-7680"
+node_machine_type   = "e2-standard-4"

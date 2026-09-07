@@ -1,0 +1,9 @@
+variable "name" { type = string }
+variable "project_id" { type = string }
+variable "region" { type = string }
+variable "zones" { type = list(string) }
+variable "network" { type = string }
+variable "subnetwork" { type = string }
+variable "node_machine_type" { type = string }
+variable "workload_identity_sa" { type = string }
+variable "labels" { type = map(string) }

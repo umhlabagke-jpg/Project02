@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: platform
+resources:
+  - ../../base
+  - vpa.yaml
+images:
+  - name: REGION-docker.pkg.dev/PROJECT_ID/platform-containers/api
+    newName: europe-west1-docker.pkg.dev/learning-gke-498507/platform-containers/api
+    newTag: latest

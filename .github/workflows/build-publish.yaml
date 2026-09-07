@@ -1,0 +1,42 @@
+name: Build and publish
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["gitops/**"]
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  REGION: europe-west1
+  PROJECT_ID: learning-gke-498507
+  IMAGE: platform-containers/api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_CI_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
+      - run: |
+          docker build --tag "$REGION-docker.pkg.dev/$PROJECT_ID/$IMAGE:${GITHUB_SHA}" .
+          docker push "$REGION-docker.pkg.dev/$PROJECT_ID/$IMAGE:${GITHUB_SHA}"
+      - name: Update manifest repository
+        env:
+          MANIFEST_TOKEN: ${{ secrets.MANIFEST_REPO_TOKEN }}
+        run: |
+          git clone "https://x-access-token:${MANIFEST_TOKEN}@github.com/${{ github.repository_owner }}/Project02-manifests.git" /tmp/manifests
+          cd /tmp/manifests
+          sed -i "s#newTag:.*#newTag: ${GITHUB_SHA}#" overlays/production/kustomization.yaml
+          git config user.name github-actions
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .
+          git commit -m "chore: deploy ${GITHUB_SHA}" || exit 0
+          git push
