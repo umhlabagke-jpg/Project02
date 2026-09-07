@@ -4,16 +4,28 @@ resource "google_service_account" "workload_identity" {
   display_name = "${var.name} workload identity"
 }
 
-resource "google_project_iam_member" "workload_logging" {
-  project = var.project_id
-  role    = "roles/logging.logWriter"
-  member  = "serviceAccount:${google_service_account.workload_identity.email}"
+resource "google_service_account" "gke_nodes" {
+  project      = var.project_id
+  account_id   = "${var.name}-nodes"
+  display_name = "${var.name} GKE nodes"
 }
 
-resource "google_project_iam_member" "workload_metrics" {
+resource "google_project_iam_member" "nodes_logging" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.gke_nodes.email}"
+}
+
+resource "google_project_iam_member" "nodes_metrics" {
   project = var.project_id
   role    = "roles/monitoring.metricWriter"
-  member  = "serviceAccount:${google_service_account.workload_identity.email}"
+  member  = "serviceAccount:${google_service_account.gke_nodes.email}"
+}
+
+resource "google_service_account_iam_member" "gke_workload_identity" {
+  service_account_id = google_service_account.workload_identity.name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "serviceAccount:${var.project_id}.svc.id.goog[platform/api]"
 }
 
 resource "google_service_account" "github_actions" {

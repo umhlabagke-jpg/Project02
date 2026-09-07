@@ -51,7 +51,7 @@ module "gke" {
   network              = module.vpc.network_name
   subnetwork           = module.vpc.gke_subnetwork_name
   node_machine_type    = var.node_machine_type
-  workload_identity_sa = module.iam.workload_identity_service_account
+  node_service_account = module.iam.gke_node_service_account
   labels               = local.labels
   depends_on           = [google_project_service.apis]
 }

@@ -11,6 +11,7 @@ Terraform and GitOps foundation for a private, regional GKE microservices platfo
 - Argo CD bootstrap manifests for an application repository and a separate environment manifest repository.
 - GitHub Actions builds and publishes images, then updates the manifest repository.
 - Google Managed Service for Prometheus and Cloud Monitoring SLO/alert hooks.
+- GKE workloads use Workload Identity Federation; no service-account keys are used. GKE nodes and application pods have separate Google identities, and GitHub Actions uses OIDC federation.
 
 ## Prerequisites
 

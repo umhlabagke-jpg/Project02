@@ -71,7 +71,7 @@ resource "google_container_node_pool" "system" {
 
   node_config {
     machine_type    = var.node_machine_type
-    service_account = var.workload_identity_sa
+    service_account = var.node_service_account
     oauth_scopes    = ["https://www.googleapis.com/auth/cloud-platform"]
     image_type      = "COS_CONTAINERD"
     shielded_instance_config {
