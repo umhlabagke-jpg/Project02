@@ -31,7 +31,7 @@ Terraform intentionally does not create a GCP project or GitHub repositories. Cr
 After apply, fetch credentials and install Argo CD:
 
 ```powershell
-gcloud container clusters get-credentials platform --region europe-west1 --project learning-gke-498507
+gcloud container clusters get-credentials platform --region africa-south1 --project learning-gke-498507
 kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.14.12/manifests/install.yaml
 kubectl apply -f gitops/argocd/install.yaml
 kubectl apply -f gitops/argocd/application.yaml

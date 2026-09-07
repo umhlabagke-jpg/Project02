@@ -7,13 +7,13 @@ variable "project_id" {
 variable "region" {
   description = "Regional control-plane and workload location."
   type        = string
-  default     = "europe-west1"
+  default     = "africa-south1"
 }
 
 variable "zones" {
   description = "Zones used by the regional GKE node pools."
   type        = list(string)
-  default     = ["europe-west1-b", "europe-west1-c", "europe-west1-d"]
+  default     = ["africa-south1-a", "africa-south1-b", "africa-south1-c"]
 }
 
 variable "name" {

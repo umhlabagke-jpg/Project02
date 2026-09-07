@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 env:
-  REGION: europe-west1
+  REGION: africa-south1
   PROJECT_ID: learning-gke-498507
   IMAGE: platform-containers/api
 
